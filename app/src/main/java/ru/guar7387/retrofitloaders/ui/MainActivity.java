@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (id) {
             case R.id.airports_loader:
                 return new AirportsLoader(this, "55.749792,37.6324949");
+
             default:
                 return null;
         }
@@ -43,5 +44,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Response> loader) {
+        // Do nothing
     }
 }

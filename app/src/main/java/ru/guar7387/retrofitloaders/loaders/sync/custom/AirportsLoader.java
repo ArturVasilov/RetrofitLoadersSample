@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.List;
 
-import retrofit.Call;
+import retrofit2.Call;
 import ru.guar7387.retrofitloaders.api.AirportsService;
 import ru.guar7387.retrofitloaders.api.ApiFactory;
 import ru.guar7387.retrofitloaders.api.response.AirportsResponse;
@@ -35,3 +35,4 @@ public class AirportsLoader extends BaseLoader {
                 .setAnswer(airports);
     }
 }
+

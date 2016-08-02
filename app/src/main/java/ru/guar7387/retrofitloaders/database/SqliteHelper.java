@@ -10,7 +10,7 @@ import ru.guar7387.retrofitloaders.database.tables.AirportsTable;
 /**
  * @author Artur Vasilov
  */
-public class SqliteHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String CONTENT_AUTHORITY = "ru.sample.retrofit.loaders";
 
@@ -20,7 +20,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    public SqliteHelper(Context context) {
+    public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

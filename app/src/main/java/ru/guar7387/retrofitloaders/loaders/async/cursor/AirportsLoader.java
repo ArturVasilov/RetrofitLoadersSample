@@ -5,8 +5,9 @@ import android.database.Cursor;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Response;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import ru.guar7387.retrofitloaders.api.AirportsService;
 import ru.guar7387.retrofitloaders.api.ApiFactory;
 import ru.guar7387.retrofitloaders.api.RetrofitCallback;
@@ -33,8 +34,8 @@ public class AirportsLoader extends BaseLoader {
         Call<List<Airport>> call = mAirportsService.airports(mGps);
         call.enqueue(new RetrofitCallback<List<Airport>>() {
             @Override
-            public void onResponse(Response<List<Airport>> response) {
-                if (response.isSuccess()) {
+            public void onResponse(Call<List<Airport>> call, Response<List<Airport>> response) {
+                if (response.isSuccessful()) {
                     AirportsTable.clear(getContext());
                     AirportsTable.save(getContext(), response.body());
                     Cursor cursor = getContext().getContentResolver().query(AirportsTable.URI,
@@ -47,3 +48,5 @@ public class AirportsLoader extends BaseLoader {
         });
     }
 }
+
+

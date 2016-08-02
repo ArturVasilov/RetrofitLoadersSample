@@ -1,6 +1,7 @@
 package ru.guar7387.retrofitloaders.api.response;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ import ru.guar7387.retrofitloaders.database.realm.AirportsHelper;
 public class AirportsResponse extends Response {
 
     @Override
-    public void save(Context context) {
+    public void save(@NonNull Context context) {
         List<Airport> airports = getTypedAnswer();
         if (airports != null) {
-            AirportsHelper.save(Realm.getInstance(context), airports);
+            AirportsHelper.save(Realm.getDefaultInstance(), airports);
         }
     }
 

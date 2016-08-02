@@ -6,7 +6,7 @@ import android.database.Cursor;
 import java.io.IOException;
 import java.util.List;
 
-import retrofit.Call;
+import retrofit2.Call;
 import ru.guar7387.retrofitloaders.api.AirportsService;
 import ru.guar7387.retrofitloaders.api.ApiFactory;
 import ru.guar7387.retrofitloaders.content.Airport;
@@ -30,6 +30,9 @@ public class AirportsLoader extends BaseLoader {
         Call<List<Airport>> call = service.airports(mGps);
         List<Airport> airports = call.execute().body();
         AirportsTable.save(getContext(), airports);
-        return getContext().getContentResolver().query(AirportsTable.URI, null, null, null, null);
+        return getContext().getContentResolver().query(AirportsTable.URI,
+                null, null, null, null);
     }
 }
+
+

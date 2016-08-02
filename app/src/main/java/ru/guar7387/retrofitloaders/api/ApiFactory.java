@@ -6,13 +6,14 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmObject;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.guar7387.retrofitloaders.BuildConfig;
 
 /**
@@ -24,13 +25,7 @@ public class ApiFactory {
     private static final int WRITE_TIMEOUT = 120;
     private static final int CONNECT_TIMEOUT = 10;
 
-    private static final OkHttpClient CLIENT = new OkHttpClient();
-
-    static {
-        CLIENT.setConnectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
-        CLIENT.setWriteTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
-        CLIENT.setReadTimeout(TIMEOUT, TimeUnit.SECONDS);
-    }
+    private static OkHttpClient sClient;
 
     private static final Gson GSON = new GsonBuilder()
             .setExclusionStrategies(new ExclusionStrategy() {
@@ -48,15 +43,39 @@ public class ApiFactory {
 
     @NonNull
     public static AirportsService getAirportsService() {
-        return getRetrofit().create(AirportsService.class);
+        return buildRetrofit().create(AirportsService.class);
     }
 
     @NonNull
-    private static Retrofit getRetrofit() {
+    private static Retrofit buildRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_ENDPOINT)
+                .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create(GSON))
-                .client(CLIENT)
+                .build();
+    }
+
+    @NonNull
+    private static OkHttpClient getClient() {
+        OkHttpClient client = sClient;
+        if (client == null) {
+            synchronized (ApiFactory.class) {
+                client = sClient;
+                if (client == null) {
+                    client = sClient = buildClient();
+                }
+            }
+        }
+        return client;
+    }
+
+    @NonNull
+    private static OkHttpClient buildClient() {
+        return new OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(new HttpLoggingInterceptor())
                 .build();
     }
 

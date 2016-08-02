@@ -22,7 +22,7 @@ public class Response {
         return mRequestResult;
     }
 
-    public Response setRequestResult(RequestResult requestResult) {
+    public Response setRequestResult(@NonNull RequestResult requestResult) {
         mRequestResult = requestResult;
         return this;
     }
@@ -36,11 +36,13 @@ public class Response {
         return (T) mAnswer;
     }
 
+    @NonNull
     public Response setAnswer(@Nullable Object answer) {
         mAnswer = answer;
         return this;
     }
 
-    public void save(Context context) {
+    public void save(@NonNull Context context) {
     }
 }
+

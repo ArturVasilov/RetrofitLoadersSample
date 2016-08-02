@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import ru.guar7387.retrofitloaders.database.tables.AirportsTable;
@@ -23,14 +24,14 @@ public class AirportsContentProvider extends ContentProvider {
 
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        URI_MATCHER.addURI(SqliteHelper.CONTENT_AUTHORITY, AirportsTable.Requests.TABLE_NAME, AIRPORTS_TABLE);
+        URI_MATCHER.addURI(SQLiteHelper.CONTENT_AUTHORITY, AirportsTable.Requests.TABLE_NAME, AIRPORTS_TABLE);
     }
 
-    private SqliteHelper mSqliteHelper;
+    private SQLiteHelper mSQLiteHelper;
 
     @Override
     public boolean onCreate() {
-        mSqliteHelper = new SqliteHelper(getContext());
+        mSQLiteHelper = new SQLiteHelper(getContext());
         return true;
     }
 
@@ -49,7 +50,7 @@ public class AirportsContentProvider extends ContentProvider {
     @NonNull
     public Cursor query(@NonNull Uri uri, String[] projection,
                         String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteDatabase database = mSqliteHelper.getWritableDatabase();
+        SQLiteDatabase database = mSQLiteHelper.getWritableDatabase();
         String table = getType(uri);
         if (TextUtils.isEmpty(table)) {
             throw new UnsupportedOperationException("No such table to query");
@@ -65,8 +66,8 @@ public class AirportsContentProvider extends ContentProvider {
     }
 
     @Override
-    @NonNull public Uri insert(@NonNull Uri uri, @NonNull ContentValues values) {
-        SQLiteDatabase database = mSqliteHelper.getWritableDatabase();
+    @NonNull public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        SQLiteDatabase database = mSQLiteHelper.getWritableDatabase();
         String table = getType(uri);
         if (TextUtils.isEmpty(table)) {
             throw new UnsupportedOperationException("No such table to query");
@@ -78,8 +79,8 @@ public class AirportsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, @NonNull ContentValues[] values) {
-        SQLiteDatabase database = mSqliteHelper.getWritableDatabase();
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        SQLiteDatabase database = mSQLiteHelper.getWritableDatabase();
         String table = getType(uri);
         if (TextUtils.isEmpty(table)) {
             throw new UnsupportedOperationException("No such table to query");
@@ -105,7 +106,7 @@ public class AirportsContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase database = mSqliteHelper.getWritableDatabase();
+        SQLiteDatabase database = mSQLiteHelper.getWritableDatabase();
         String table = getType(uri);
         if (TextUtils.isEmpty(table)) {
             throw new UnsupportedOperationException("No such table to query");
@@ -116,9 +117,9 @@ public class AirportsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @NonNull ContentValues values,
+    public int update(@NonNull Uri uri, @Nullable ContentValues values,
                       String selection, String[] selectionArgs) {
-        SQLiteDatabase database = mSqliteHelper.getWritableDatabase();
+        SQLiteDatabase database = mSQLiteHelper.getWritableDatabase();
         String table = getType(uri);
         if (TextUtils.isEmpty(table)) {
             throw new UnsupportedOperationException("No such table to query");

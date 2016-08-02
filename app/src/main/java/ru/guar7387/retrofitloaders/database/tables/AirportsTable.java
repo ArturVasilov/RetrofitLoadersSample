@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.guar7387.retrofitloaders.content.Airport;
-import ru.guar7387.retrofitloaders.database.SqliteHelper;
+import ru.guar7387.retrofitloaders.database.SQLiteHelper;
 
 /**
  * @author Artur Vasilov
  */
 public class AirportsTable {
 
-    public static final Uri URI = SqliteHelper.BASE_CONTENT_URI.buildUpon().appendPath(Requests.TABLE_NAME).build();
+    public static final Uri URI = SQLiteHelper.BASE_CONTENT_URI.buildUpon().appendPath(Requests.TABLE_NAME).build();
 
     public static void save(Context context, @NonNull Airport airport) {
         context.getContentResolver().insert(URI, toContentValues(airport));

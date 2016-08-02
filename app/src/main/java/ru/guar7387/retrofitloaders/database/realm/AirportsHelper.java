@@ -14,13 +14,13 @@ public class AirportsHelper {
 
     public static void save(@NonNull Realm realm, List<Airport> airports) {
         realm.beginTransaction();
-        realm.clear(Airport.class);
+        realm.delete(Airport.class);
         realm.copyToRealm(airports);
         realm.commitTransaction();
     }
 
     @NonNull
     public static List<Airport> getAirports(@NonNull Realm realm) {
-        return realm.allObjects(Airport.class);
+        return realm.where(Airport.class).findAll();
     }
 }

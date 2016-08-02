@@ -49,3 +49,4 @@ public abstract class BaseLoader extends AsyncTaskLoader<Response> {
     protected abstract Response apiCall() throws IOException;
 }
 
+
